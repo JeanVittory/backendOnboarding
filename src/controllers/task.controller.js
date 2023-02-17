@@ -6,7 +6,6 @@ import db from '@makeitrealcamp/db-mock';
  */
 export const getTasks = (_, res) => {
 	const result = db.findAll();
-	if (!result.length) return res.status(404).json({ error: 'Database empty' });
 	return res.status(200).json({ result });
 };
 
