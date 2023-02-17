@@ -7,6 +7,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api', taskRouter);
 
 app.listen(env.PORT, () => console.log(`Server running on port ${env.PORT}`));

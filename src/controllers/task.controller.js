@@ -31,8 +31,12 @@ export const getTask = (req, res) => {
  */
 export const postTask = (req, res) => {
 	const task = req.body;
+	const taskFormatted = {
+		task: task.task,
+		isDone: false,
+	};
 	if (!task) return res.status(400).json({ error: 'You must provide a task to aggregate' });
-	const taskAdded = db.insert(task);
+	const taskAdded = db.insert(taskFormatted);
 	if (!Object.values(taskAdded).length)
 		return res.status(500).json({ error: 'Something went wrong' });
 	return res.status(201).json(taskAdded);
@@ -49,10 +53,7 @@ export const putTask = (req, res) => {
 	if (isNaN(id) || !task || !id)
 		return res.status(400).json({ error: 'You must provide a task and a valid id' });
 	try {
-		db.update({
-			id: +id,
-			task: task,
-		});
+		db.update({ ...req.body, id: +id });
 		return res.status(200).json({ status: 'OK' });
 	} catch (error) {
 		return res.status(500).json({ error: error });
